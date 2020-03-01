@@ -1,5 +1,7 @@
 import javafx.util.Pair;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 /*
  *  Project 2 - CS408 
  *  Spring 2020
@@ -23,15 +25,23 @@ class func {
 }
 
 public class Pi {
+	ArrayList<func> funcList = new ArrayList<func>();
+
 	public static void main(String args[]) {
 		parseCallGraph();
+
 	}
 
 	public static void parseCallGraph() {
-
+		Scanner in = new Scanner(System.in);
+		while (in.hasNextLine()) {
+			String s = in.nextLine();
+			// TODO Read through callgraph and parse functions into func class
+			// Ignore null calls, and external nodes
+		}
 	}
 
 	public static void analyzeData() {
-		// todo, see above
+		// iterate through
 	}
 }
