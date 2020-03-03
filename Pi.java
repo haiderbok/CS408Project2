@@ -78,7 +78,7 @@ public class Pi {
       func f = new func();
       
       // check if the call is for null function
-      boolean isFound = st.contains("null function") || st.contains("external node");
+      boolean isFound = st.contains("null function");
       
       // if this is true the move to the next Call graph a loop so for consective calls
       while (isFound) {
@@ -90,7 +90,7 @@ public class Pi {
           
           //System.out.println("in " + st);
         }
-        isFound = st.contains("null function")|| st.contains("external node");
+        isFound = st.contains("null function");
         
       }
       
@@ -272,8 +272,10 @@ public class Pi {
                   break;
                 }
               }
-              System.out.println("bug: "+name2+ " in "+thisScope+", pair: ("+pair+"), support: "+support.intValue()+", confidence: "+ String.format("%.2f",(confidence*100))+"%");
-            }
+              if(!thisScope.equals("")) {
+                System.out.println("bug: " + name2 + " in " + thisScope + ", pair: (" + pair + "), support: " + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
+              }
+              }
           }
 
       }
