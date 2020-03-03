@@ -3,8 +3,10 @@ import javafx.util.Pair;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /*
@@ -25,13 +27,18 @@ class func {
   int uses;
   
   // Use memid (hex) for these lists
-  ArrayList<Integer> calls;
-  ArrayList<Pair<Integer, Integer>> callPairs;
+  ArrayList<String> calls;
+  HashMap<String,Integer> callpairs;
+  
+  func() {
+    calls = new ArrayList<>();
+    callpairs = new HashMap<>();
+  }
+  
 }
 
 public class Pi {
-  ArrayList<func> funcList = new ArrayList<func>();
-  
+  HashMap<String,func> funclist = new HashMap<>();
   public static void main(String args[]) {
     try {
       parseCallGraph();
@@ -42,7 +49,6 @@ public class Pi {
   }
   
   public static void parseCallGraph () throws Exception {
-    Scanner in = new Scanner(System.in);
     
     // to get the working directory
     String filename = "/src/callgraph.txt";
@@ -106,13 +112,17 @@ public class Pi {
           System.out.println(f.memid);
           
         } else {
+          
+          
           //                        //Save the file names
           //                        f.name = st.substring(index_name + 1, lastindex_name);
           //                        System.out.println(f.name);
           //                        int index_mem = st.indexOf("<");
           //                        int lastindex_mem = st.indexOf(">");
-          //                        f.memid = st.substring(index_mem + 1, lastindex_mem );
+          
           //                        System.out.println(f.memid);
+          
+          
           
           
           
@@ -130,4 +140,3 @@ public class Pi {
     // iterate through
   }
 }
-
