@@ -96,7 +96,7 @@ public class Pi {
       
       // Save the name of this function in func object
 
-      System.out.println(st);
+      //System.out.println(st);
       int index_name = st.indexOf('\'');
       int lastindex_name = st.lastIndexOf('\'');
       int index_uses = st.indexOf('=');
@@ -131,9 +131,9 @@ public class Pi {
           nodeSet.addAll(nodes);
           nodes.clear();
           nodes.addAll(nodeSet);
-          for(int i=0;i<nodes.size();i++){
-            System.out.println("nodes["+i+"]: "+nodes.get(i));
-          }
+          //for(int i=0;i<nodes.size();i++){
+           // System.out.println("nodes["+i+"]: "+nodes.get(i));
+          //}
           //add individual functions to callpairs2
           if(nodes.size()>0){
             for(int i=0;i<nodes.size();i++) {
@@ -189,9 +189,9 @@ public class Pi {
     nodeSet.addAll(nodes);
     nodes.clear();
     nodes.addAll(nodeSet);
-    for(int i=0;i<nodes.size();i++){
-      System.out.println("nodes["+i+"]: "+nodes.get(i));
-    }
+    //for(int i=0;i<nodes.size();i++){
+     // System.out.println("nodes["+i+"]: "+nodes.get(i));
+    //}
     if(nodes.size()>0){
       for(int i=0;i<nodes.size();i++) {
         if (callpairs2.containsKey(nodes.get(i))) {
@@ -221,16 +221,16 @@ public class Pi {
 
     //Print callpairs hashmap
 
-    callpairs.entrySet().forEach(entry->{
-      System.out.println(entry.getKey()+ " " +entry.getValue());
-    });
-    callpairs2.entrySet().forEach(entry->{
-      System.out.println(entry.getKey()+ " " +entry.getValue());
-    });
+    //callpairs.entrySet().forEach(entry->{
+    //  System.out.println(entry.getKey()+ " " +entry.getValue());
+    //});
+    //callpairs2.entrySet().forEach(entry->{
+     // System.out.println(entry.getKey()+ " " +entry.getValue());
+    //});
 
-    scopes.entrySet().forEach(entry->{
-      System.out.println("Scope: "+entry.getKey()+ "   Nodes: " +entry.getValue());
-    });
+    //scopes.entrySet().forEach(entry->{
+     // System.out.println("Scope: "+entry.getKey()+ "   Nodes: " +entry.getValue());
+    //});
 
 
 
@@ -272,7 +272,7 @@ public class Pi {
                   break;
                 }
               }
-              if(!thisScope.equals("")) {
+              if(!thisScope.equals("")&&confidence<1) {
                 System.out.println("bug: " + name2 + " in " + thisScope + ", pair: (" + pair + "), support: " + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
               }
               }
