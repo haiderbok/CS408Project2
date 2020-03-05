@@ -1,11 +1,7 @@
-import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Array;
-import java.nio.Buffer;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /*
@@ -44,19 +40,30 @@ public class Pi {
   //scopes holds the scopes and the nodes they contain
   static HashMap<String,String> scopes = new HashMap<>();
 
-  public static void main(String args[]) {
+  public static void main(String []args) {
+    int inputSupport=3;
+    Double inputConfidence=.65;
+    if(args.length==1 ||args.length>3){
+      System.out.println("invalid arguments");
+    }else if(args.length ==2){
+       inputSupport = Integer.parseInt(args[0]);
+       inputConfidence = Double.parseDouble(args[1])/100;
+    }else if(args.length ==0){
+       inputSupport = 3;
+       inputConfidence =.65;
+    }
     try {
-      parseCallGraph();
+      parseCallGraph(inputSupport,inputConfidence);
     } catch (Exception e){
       e.printStackTrace();
     }
     
   }
   
-  public static void parseCallGraph () throws Exception {
+  public static void parseCallGraph (int inSup, Double inConf) throws Exception {
     
     // to get the working directory
-    String filename = "/src/callgraph.txt";
+    String filename = "/call_graph.txt";
     String workingdirectory = System.getProperty("user.dir");
     String absoulouteFilePath = workingdirectory + filename;
     String tempScope="";
@@ -121,18 +128,18 @@ public class Pi {
           //System.out.println("memID: "+f.memid);
           //initializes the nodes string in scopes for this call graph to null
           scopes.put(f.name,"");
-          /*
-          for(int i=0;i<nodes.size();i++){
-            System.out.println("nodes["+i+"]: "+nodes.get(i));
-          }
 
-           */
+          //for(int i=0;i<nodes.size();i++){
+          //  System.out.println("nodes["+i+"]: "+nodes.get(i));
+          //}
+
+
           Set<String> nodeSet = new LinkedHashSet<>();
           nodeSet.addAll(nodes);
           nodes.clear();
           nodes.addAll(nodeSet);
-          //for(int i=0;i<nodes.size();i++){
-           // System.out.println("nodes["+i+"]: "+nodes.get(i));
+          //for(int i=0;i<nodes.size();i++) {
+          //  System.out.println("nodes[" + i + "]: " + nodes.get(i));
           //}
           //add individual functions to callpairs2
           if(nodes.size()>0){
@@ -165,8 +172,8 @@ public class Pi {
           
         } else {
           f.name = st.substring(index_name + 1, lastindex_name);
-          if(!scopes.get(tempScope).contains(f.name)) {
-            scopes.put(tempScope, scopes.get(tempScope).concat("," + f.name));
+          if(!scopes.get(tempScope).contains(f.name+",")) {
+            scopes.put(tempScope, scopes.get(tempScope).concat(","+f.name+","));
           }
           //System.out.println("Name: "+f.name);
 
@@ -190,8 +197,8 @@ public class Pi {
     nodes.clear();
     nodes.addAll(nodeSet);
     //for(int i=0;i<nodes.size();i++){
-     // System.out.println("nodes["+i+"]: "+nodes.get(i));
-    //}
+    //  System.out.println("nodes["+i+"]: "+nodes.get(i));
+   // }
     if(nodes.size()>0){
       for(int i=0;i<nodes.size();i++) {
         if (callpairs2.containsKey(nodes.get(i))) {
@@ -222,14 +229,14 @@ public class Pi {
     //Print callpairs hashmap
 
     //callpairs.entrySet().forEach(entry->{
-    //  System.out.println(entry.getKey()+ " " +entry.getValue());
+     // System.out.println(entry.getKey()+ " " +entry.getValue());
     //});
     //callpairs2.entrySet().forEach(entry->{
      // System.out.println(entry.getKey()+ " " +entry.getValue());
     //});
 
     //scopes.entrySet().forEach(entry->{
-     // System.out.println("Scope: "+entry.getKey()+ "   Nodes: " +entry.getValue());
+     //System.out.println("Scope: "+entry.getKey()+ "   Nodes: " +entry.getValue());
     //});
 
 
@@ -252,7 +259,7 @@ public class Pi {
             Double support = (Double)mapElement.getValue();
             Double support2 = (Double)mapElement2.getValue();
             Double confidence = support/support2;
-            if(confidence >= .65  && support>=3){
+            if(confidence >= inConf  && support>=inSup){
               String thisScope = "";
               String func1, func2;
               func1 = pair.substring(0,pair.indexOf(','));
@@ -267,14 +274,23 @@ public class Pi {
               for(Map.Entry<String,String> entry: scopes.entrySet()){
                 String k = entry.getKey();
                 String v = entry.getValue();
-                if(v.contains(func1)&& !v.contains(func2)){
+
+
+                if(v.contains(","+func1+",")&& !v.contains(","+func2+",")){
                   thisScope =k;
-                  break;
+                  if(!thisScope.equals("")&&confidence<1) {
+                    if(func1.compareTo(func2)>0){
+                      System.out.println("bug: " + name2 + " in " + thisScope + ", pair: (" +func2+", "+func1+ "), support: " + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
+                    }else {
+                      System.out.println("bug: " + name2 + " in " + thisScope + ", pair: (" + func1 +", "+func2+ "), support: " + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
+                    }
+                    //System.out.println("Scope and Nodes: "+v);
+                    //System.out.println("func1: "+ func1+ "  func2: "+func2);
+                    }
+                  thisScope ="";
                 }
               }
-              if(!thisScope.equals("")&&confidence<1) {
-                System.out.println("bug: " + name2 + " in " + thisScope + ", pair: (" + pair + "), support: " + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
-              }
+
               }
           }
 
