@@ -1,0 +1,34 @@
+#!/bin/bash
+  
+#source Makefile
+
+
+#!/bin/bash
+  
+#source Makefile
+filename=$1
+arg1=$2
+arg2=$3
+arg3=$4
+
+$(chmod +x $filename)
+$(chmod +x ../clean.sh)
+$(chmod +x ../timeout.sh)
+opt -print-callgraph $filename > /dev/null 2>call_graph.txt
+
+if [ ! -z $arg1 ] && [ ! -z $arg2 ] && [ ! -z $arg3 ]; then
+	java -cp ../ Pi $arg1 $arg2 $arg3
+else
+        if [ ! -z $arg1 ] && [ ! -z $arg2 ]; then
+	java -cp ../ Pi $arg1 $arg2
+        else
+                if [ ! -z $arg3 ]; then
+		java -cp ../ Pi $arg3
+                else
+		java -cp ../ Pi
+                fi
+        fi
+fi
+
+
+
