@@ -54,9 +54,6 @@ public class Pi {
   }
 
   public static void parseCallGraph(int inSup, Double inConf) throws Exception {
-    // Debug option for testing functionality with prints
-    boolean debug_tag = false;
-
     // to get the working directory
     String filename = "/call_graph.txt";
     String workingdirectory = System.getProperty("user.dir");
@@ -120,25 +117,10 @@ public class Pi {
           // initializes the nodes string in scopes for this call graph to null
           scopes.put(f.name, "");
 
-          if (debug_tag) {
-            System.out.println("Name: " + f.name);
-            System.out.println("#Uses: " + f.uses);
-            System.out.println("memID: " + f.memid);
-            for (int i = 0; i < nodes.size(); i++) {
-              System.out.println("nodes[" + i + "]: " + nodes.get(i));
-            }
-          }
-
           Set<String> nodeSet = new LinkedHashSet<>();
           nodeSet.addAll(nodes);
           nodes.clear();
           nodes.addAll(nodeSet);
-
-          if (debug_tag) {
-            for (int i = 0; i < nodes.size(); i++) {
-              System.out.println("nodes[" + i + "]: " + nodes.get(i));
-            }
-          }
 
           // add individual functions to callpairs2
           if (nodes.size() > 0) {
@@ -177,15 +159,6 @@ public class Pi {
           }
 
           nodes.add(f.name);
-          if (debug_tag) {
-            System.out.println("Name: " + f.name);
-            // Save the file names
-            f.name = st.substring(index_name + 1, lastindex_name);
-            System.out.println(f.name);
-            int index_mem = st.indexOf("<");
-            int lastindex_mem = st.indexOf(">");
-            System.out.println(f.memid);
-          }
 
         }
       }
@@ -196,12 +169,6 @@ public class Pi {
     nodeSet.addAll(nodes);
     nodes.clear();
     nodes.addAll(nodeSet);
-
-    if (debug_tag) {
-      for (int i = 0; i < nodes.size(); i++) {
-        System.out.println("nodes[" + i + "]: " + nodes.get(i));
-      }
-    }
 
     if (nodes.size() > 0) {
       for (int i = 0; i < nodes.size(); i++) {
@@ -230,21 +197,6 @@ public class Pi {
     }
     nodes.clear();
 
-    if (debug_tag) {
-      // Print callpairs hashmap
-
-      callpairs.entrySet().forEach(entry -> {
-        System.out.println(entry.getKey() + " " + entry.getValue());
-      });
-      callpairs2.entrySet().forEach(entry -> {
-        System.out.println(entry.getKey() + " " + entry.getValue());
-      });
-
-      scopes.entrySet().forEach(entry -> {
-        System.out.println("Scope: " + entry.getKey() + " Nodes: " + entry.getValue());
-      });
-    }
-
     // calculate confidence
     Iterator cp2 = callpairs2.entrySet().iterator();
     while (cp2.hasNext()) {
@@ -270,11 +222,7 @@ public class Pi {
               func2 = func1;
               func1 = name2;
             }
-            if (debug_tag) {
-              System.out.println("name: " + name2);
-              System.out.println("func1: " + func1);
-              System.out.println("func2: " + func2);
-            }
+
             for (Map.Entry<String, String> entry : scopes.entrySet()) {
               String k = entry.getKey();
               String v = entry.getValue();
@@ -290,10 +238,6 @@ public class Pi {
                     System.out.println(
                         "bug: " + name2 + " in " + thisScope + ", pair: (" + func1 + ", " + func2 + "), support: "
                             + support.intValue() + ", confidence: " + String.format("%.2f", (confidence * 100)) + "%");
-                  }
-                  if (debug_tag) {
-                    System.out.println("Scope and Nodes: " + v);
-                    System.out.println("func1: " + func1 + " func2: " + func2);
                   }
                 }
                 thisScope = "";
