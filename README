@@ -9,18 +9,16 @@ Nicholas Meier
 Submission Structure
 
 /pi
+    Report.pdf
     /partA
         Makefile
         pi.java
         pipair
     /PartC
-        Report_partC.pdf
         Makefile
         pi_partC.java
     /PartD
-        Report_partD.pdf
+        README_PART_D
         Makefile
         pi_partD.java
-/pii
-    Report_pii.pdf 
 README
