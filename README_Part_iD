@@ -1,0 +1,8 @@
+compiling part D: 
+  javac Pi_partD.java
+
+running part D:
+  java Pi_partD
+
+There is a boolean value called "debugging" on line 230 for this code that prints out which bugs are considered False positives
+By default it is set to true, and for sake of simplicity, on the side of developing, it is only changed by manually editting the source
