@@ -39,10 +39,12 @@ public class Pi {
   static HashMap<String,Double>callpairs2 = new HashMap<>();
   //scopes holds the scopes and the nodes they contain
   static HashMap<String,String> scopes = new HashMap<>();
-
+  //main method 
   public static void main(String []args) {
+    //varibles for support and confidence
     int inputSupport=3;
     Double inputConfidence=.65;
+    //if tree for processing command line arguments
     if(args.length==1 ||args.length>3){
       System.out.println("invalid arguments");
     }else if(args.length ==2){
@@ -52,6 +54,7 @@ public class Pi {
        inputSupport = 3;
        inputConfidence =.65;
     }
+    //call to parsing function
     try {
       parseCallGraph(inputSupport,inputConfidence);
     } catch (Exception e){
@@ -138,9 +141,11 @@ public class Pi {
           nodeSet.addAll(nodes);
           nodes.clear();
           nodes.addAll(nodeSet);
-          //for(int i=0;i<nodes.size();i++) {
+          
+	  //for(int i=0;i<nodes.size();i++) {
           //  System.out.println("nodes[" + i + "]: " + nodes.get(i));
           //}
+
           //add individual functions to callpairs2
           if(nodes.size()>0){
             for(int i=0;i<nodes.size();i++) {
@@ -151,7 +156,8 @@ public class Pi {
               }
             }
           }
-          //if nodes contains more than one function
+          
+	  //if nodes contains more than one function
           //count function pairs called together and add to callpairs
           if(nodes.size() > 1){
             for(int i=0;i<nodes.size();i++) {
@@ -191,7 +197,7 @@ public class Pi {
 
 
 
-
+    //copy nodes to a Set then copy back to get rid of duplicates
     Set<String> nodeSet = new LinkedHashSet<>();
     nodeSet.addAll(nodes);
     nodes.clear();
@@ -275,7 +281,7 @@ public class Pi {
                 String k = entry.getKey();
                 String v = entry.getValue();
 
-
+		//check if function is called without its pair
                 if(v.contains(","+func1+",")&& !v.contains(","+func2+",")){
                   thisScope =k;
                   if(!thisScope.equals("")&&confidence<1) {
