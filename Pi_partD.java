@@ -6,7 +6,7 @@ import java.util.*;
 /*
  *  Project 2 - CS408
  *  Spring 2020
- *  
+ *  Part i.D
  */
 
 class func {
@@ -19,9 +19,7 @@ class func {
 
     func() {
         calls = new ArrayList<>();
-
     }
-
 }
 
 public class Pi_partD {
@@ -52,13 +50,11 @@ public class Pi_partD {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void parseCallGraph(int inSup, Double inConf) throws Exception {
         // to get the working directory
-        String filename = "/test3/call_graph.txt";
-        // String filename = "/call_graph.txt";
+        String filename = "/call_graph.txt";
         String workingdirectory = System.getProperty("user.dir");
         String absoulouteFilePath = workingdirectory + filename;
         String tempScope = "";
@@ -87,22 +83,18 @@ public class Pi_partD {
                     if (st.contains("Call graph")) {
                         break;
                     }
-
-                    // System.out.println("in " + st);
                 }
                 isFound = st.contains("null function");
 
             }
 
             // Save the name of this function in func object
-
-            // System.out.println(st);
             int index_name = st.indexOf('\'');
             int lastindex_name = st.lastIndexOf('\'');
             int index_uses = st.indexOf('=');
             int index_ext_node = st.indexOf("CS<0x0> calls external node");
 
-            // ignore empty lines also ignores external nodes
+            // ignore empty lines
             if (index_name != -1) {
 
                 // this needs to be done only for the Call graph line
@@ -165,7 +157,7 @@ public class Pi_partD {
                     nodes.add(f.name);
 
                 }
-            } else {
+            } else { // part D
                 // store functions that call external nodes in a list
                 if ((index_ext_node != -1) && (st_p != null)) {
                     String nodename_temp = st_p.substring(st_p.indexOf("\'") + 1, st_p.lastIndexOf("\'"));
@@ -254,8 +246,7 @@ public class Pi_partD {
                                                 + String.format("%.2f", (confidence * 100)) + "%");
                                     }
                                 }
-                                // case for false positive - part d
-                                // System.out.println("firstnode " + firstNode + " second node " + secondNode);
+                                // case for false positive - part D
                                 if ((ext_node_check.indexOf(firstNode) != -1)
                                         || (ext_node_check.indexOf(secondNode) != -1)) {
                                     if (debugging) {
