@@ -12,9 +12,9 @@ arg2=$3
 arg3=$4
 
 $(chmod 755 $filename)
-$(chmod 755 ./clean.sh)
-$(chmod 755 ./timeout.sh)
-$(chmod 755 ./pipair)
+$(chmod 755 ../clean.sh)
+$(chmod 755 ../timeout.sh)
+$(chmod 755 ../pipair)
 opt -print-callgraph $filename > /dev/null 2>call_graph.txt
 
 if [ ! -z $arg1 ] && [ ! -z $arg2 ] && [ ! -z $arg3 ]; then
